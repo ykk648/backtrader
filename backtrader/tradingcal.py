@@ -247,7 +247,10 @@ class PandasMarketCalendar(TradingCalendarBase):
         '''
         day += ONEDAY
         while True:
-            i = self.dcache.searchsorted(day)
+            try:
+                i = self.dcache.searchsorted(pd.to_datetime(day))
+            except TypeError:
+                i = self.dcache.searchsorted(pd.to_datetime(day).tz_localize('UTC'))
             if i == len(self.dcache):
                 # keep a cache of 1 year to speed up searching
                 self.dcache = self._calendar.valid_days(day, day + self.csize)
