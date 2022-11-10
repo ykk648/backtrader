@@ -941,7 +941,8 @@ class BackBroker(bt.BrokerBase):
 
         # not (completely) executed and trailing stop
         if order.alive() and order.exectype == Order.StopTrail:
-            order.trailadjust(pclose)
+            order.trailadjust(phigh)
+            # order.trailadjust(pclose)
 
     def _try_exec_stoplimit(self, order,
                             popen, phigh, plow, pclose,
